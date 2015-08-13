@@ -49,9 +49,9 @@
     [_tagList setTagDelegate:self];
 
     // Customisation
-    [_tagList setCornerRadius:4.0f];
-    [_tagList setBorderColor:[UIColor lightGrayColor]];
-    [_tagList setBorderWidth:1.0f];
+//    [_tagList setCornerRadius:2.0f];
+//    [_tagList setBorderColor:[UIColor colorWithRed:205.0f/255.0f green:218.0f/255.0f blue:226.0f/255.0f alpha:1.0f]];
+//    [_tagList setBorderWidth:0.0f];
 
     [self.view addSubview:_tagList];
 }

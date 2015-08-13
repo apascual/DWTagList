@@ -22,6 +22,7 @@
 @property (nonatomic, strong) UIView *view;
 @property (nonatomic, strong) NSArray *textArray;
 @property (nonatomic, weak) id<DWTagListDelegate> tagDelegate;
+@property (nonatomic, strong) UIColor *highlightedFontColor;
 @property (nonatomic, strong) UIColor *highlightedBackgroundColor;
 @property (nonatomic) BOOL automaticResize;
 @property (nonatomic, strong) UIFont *font;

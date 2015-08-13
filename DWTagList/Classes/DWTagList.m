@@ -8,21 +8,23 @@
 #import "DWTagList.h"
 #import <QuartzCore/QuartzCore.h>
 
-#define CORNER_RADIUS 10.0f
+#define CORNER_RADIUS 2.0f
 #define LABEL_MARGIN_DEFAULT 5.0f
 #define BOTTOM_MARGIN_DEFAULT 5.0f
+#define FONT_FACE @"HelveticaNeue-Light"
 #define FONT_SIZE_DEFAULT 13.0f
+#define FONT_HIGHLIGHTED_COLOR [UIColor whiteColor]
 #define HORIZONTAL_PADDING_DEFAULT 7.0f
 #define VERTICAL_PADDING_DEFAULT 3.0f
 #define BACKGROUND_COLOR [UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1.00]
 #define TEXT_COLOR [UIColor blackColor]
-#define TEXT_SHADOW_COLOR [UIColor whiteColor]
-#define TEXT_SHADOW_OFFSET CGSizeMake(0.0f, 1.0f)
-#define BORDER_COLOR [UIColor lightGrayColor]
-#define BORDER_WIDTH 1.0f
-#define HIGHLIGHTED_BACKGROUND_COLOR [UIColor colorWithRed:0.40 green:0.80 blue:1.00 alpha:0.5]
+#define TEXT_SHADOW_COLOR [UIColor clearColor]
+#define TEXT_SHADOW_OFFSET CGSizeMake(0.0f, 0.0f)
+#define BORDER_COLOR [UIColor colorWithRed:205.0f/255.0f green:218.0f/255.0f blue:226.0f/255.0f alpha:1.0f]
+#define BORDER_WIDTH 0.0f
+#define HIGHLIGHTED_BACKGROUND_COLOR [UIColor colorWithRed:35.0f/255.0f green:136.0f/255.0f blue:190.0f/255.0f alpha:1.0f]
 #define DEFAULT_AUTOMATIC_RESIZE NO
-#define DEFAULT_SHOW_TAG_MENU NO
+#define DEFAULT_SHOW_TAG_MENU YES
 
 @interface DWTagList () <DWTagViewDelegate>
 
@@ -54,7 +56,7 @@
     [self addSubview:view];
     [self setClipsToBounds:YES];
     self.highlightedBackgroundColor = HIGHLIGHTED_BACKGROUND_COLOR;
-    self.font = [UIFont systemFontOfSize:FONT_SIZE_DEFAULT];
+    self.font = [UIFont fontWithName:FONT_FACE size:FONT_SIZE_DEFAULT];
     self.labelMargin = LABEL_MARGIN_DEFAULT;
     self.bottomMargin = BOTTOM_MARGIN_DEFAULT;
     self.horizontalPadding = HORIZONTAL_PADDING_DEFAULT;
@@ -66,6 +68,7 @@
     self.textShadowColor = TEXT_SHADOW_COLOR;
     self.textShadowOffset = TEXT_SHADOW_OFFSET;
     self.showTagMenu = DEFAULT_SHOW_TAG_MENU;
+    self.highlightedFontColor = FONT_HIGHLIGHTED_COLOR;
 }
 
 - (void)setTags:(NSArray *)array
@@ -199,6 +202,7 @@
 {
     UIButton *button = (UIButton*)sender;
     [[button superview] setBackgroundColor:self.highlightedBackgroundColor];
+//    [((DWTagView *)[button superview]).label setTextColor:self.highlightedFontColor];
 }
 
 - (void)touchUpInside:(id)sender
@@ -221,18 +225,31 @@
         [menuController setMenuVisible:YES animated:YES];
         [tagView becomeFirstResponder];
     }
+
+    button.selected = !button.selected;
+    if(button.selected) {
+        [[button superview] setBackgroundColor:self.highlightedBackgroundColor];
+        [((DWTagView *)[button superview]).label setTextColor:self.highlightedFontColor];
+    } else {
+        [[button superview] setBackgroundColor:[self getBackgroundColor]];
+        [((DWTagView *)[button superview]).label setTextColor:self.textColor];
+    }
 }
 
 - (void)touchDragExit:(id)sender
 {
     UIButton *button = (UIButton*)sender;
     [[button superview] setBackgroundColor:[self getBackgroundColor]];
+//    [((DWTagView *)[button superview]).label setTextColor:self.textColor];
+
 }
 
 - (void)touchDragInside:(id)sender
 {
     UIButton *button = (UIButton*)sender;
     [[button superview] setBackgroundColor:[self getBackgroundColor]];
+//    [((DWTagView *)[button superview]).label setTextColor:self.textColor];
+
 }
 
 - (UIColor *)getBackgroundColor
