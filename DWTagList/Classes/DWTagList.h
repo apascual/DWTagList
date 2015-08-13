@@ -73,6 +73,7 @@
 
 @optional
 
+- (void)selectedTag:(NSString *)tagName tagIndex:(NSInteger)tagIndex selected:(BOOL)selected;
 - (void)selectedTag:(NSString *)tagName tagIndex:(NSInteger)tagIndex;
 - (void)selectedTag:(NSString *)tagName;
 - (void)tagListTagsChanged:(DWTagList *)tagList;

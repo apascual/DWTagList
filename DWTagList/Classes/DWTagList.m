@@ -24,7 +24,7 @@
 #define BORDER_WIDTH 0.0f
 #define HIGHLIGHTED_BACKGROUND_COLOR [UIColor colorWithRed:35.0f/255.0f green:136.0f/255.0f blue:190.0f/255.0f alpha:1.0f]
 #define DEFAULT_AUTOMATIC_RESIZE NO
-#define DEFAULT_SHOW_TAG_MENU YES
+#define DEFAULT_SHOW_TAG_MENU NO
 
 @interface DWTagList () <DWTagViewDelegate>
 
@@ -210,6 +210,20 @@
     UIButton *button = (UIButton*)sender;
     DWTagView *tagView = (DWTagView *)[button superview];
     [tagView setBackgroundColor:[self getBackgroundColor]];
+
+    button.selected = !button.selected;
+    if(button.selected) {
+        [[button superview] setBackgroundColor:self.highlightedBackgroundColor];
+        [((DWTagView *)[button superview]).label setTextColor:self.highlightedFontColor];
+    } else {
+        [[button superview] setBackgroundColor:[self getBackgroundColor]];
+        [((DWTagView *)[button superview]).label setTextColor:self.textColor];
+    }
+
+    
+    if ([self.tagDelegate respondsToSelector:@selector(selectedTag:tagIndex:selected:)]) {
+        [self.tagDelegate selectedTag:tagView.label.text tagIndex:tagView.tag selected:button.selected];
+    }
     
     if ([self.tagDelegate respondsToSelector:@selector(selectedTag:tagIndex:)]) {
         [self.tagDelegate selectedTag:tagView.label.text tagIndex:tagView.tag];
@@ -224,15 +238,6 @@
         [menuController setTargetRect:tagView.frame inView:self];
         [menuController setMenuVisible:YES animated:YES];
         [tagView becomeFirstResponder];
-    }
-
-    button.selected = !button.selected;
-    if(button.selected) {
-        [[button superview] setBackgroundColor:self.highlightedBackgroundColor];
-        [((DWTagView *)[button superview]).label setTextColor:self.highlightedFontColor];
-    } else {
-        [[button superview] setBackgroundColor:[self getBackgroundColor]];
-        [((DWTagView *)[button superview]).label setTextColor:self.textColor];
     }
 }
 
