@@ -13,6 +13,7 @@
 {
     UIView      *view;
     NSArray     *textArray;
+    NSArray     *badgeTextArray;
     CGSize      sizeFit;
     UIColor     *lblBackgroundColor;
 }
@@ -41,6 +42,7 @@
 - (void)setTagBackgroundColor:(UIColor *)color;
 - (void)setTagHighlightColor:(UIColor *)color;
 - (void)setTags:(NSArray *)array;
+- (void)setTags:(NSArray *)array withBadges:(NSArray *)badgeArray;
 - (void)display;
 - (CGSize)fittedSize;
 - (void)scrollToBottomAnimated:(BOOL)animated;
