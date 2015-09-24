@@ -10,4 +10,6 @@ Pod::Spec.new do |s|
   s.source_files = 'DWTagList/Classes/*.{h,m}'
   s.requires_arc = true
   s.frameworks   = 'QuartzCore'
+
+  s.dependency 'JSBadgeView'
 end
