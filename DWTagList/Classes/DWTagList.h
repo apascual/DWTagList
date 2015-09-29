@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <JSBadgeView/JSBadgeView.h>
 
 @protocol DWTagListDelegate, DWTagViewDelegate;
 
@@ -38,6 +39,12 @@
 @property (nonatomic, strong) UIColor *textColor;
 @property (nonatomic, strong) UIColor *textShadowColor;
 @property (nonatomic, assign) CGSize textShadowOffset;
+@property (nonatomic, strong) UIColor *badgeColor;
+@property (nonatomic, strong) UIColor *badgeStrokeColor;
+@property (nonatomic, strong) UIColor *badgeTextColor;
+@property (nonatomic, strong) UIColor *badgeSelectedColor;
+@property (nonatomic, strong) UIColor *badgeSelectedStrokeColor;
+@property (nonatomic, strong) UIColor *badgeSelectedTextColor;
 
 - (void)setTagBackgroundColor:(UIColor *)color;
 - (void)setTagHighlightColor:(UIColor *)color;
@@ -54,6 +61,7 @@
 @property (nonatomic, strong) UIButton              *button;
 @property (nonatomic, strong) UILabel               *label;
 @property (nonatomic, weak)   id<DWTagViewDelegate> delegate;
+@property (nonatomic, strong) JSBadgeView           *badgeView;
 
 - (void)updateWithString:(NSString*)text
                     font:(UIFont*)font

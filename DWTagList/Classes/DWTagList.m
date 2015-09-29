@@ -7,7 +7,6 @@
 
 #import "DWTagList.h"
 #import <QuartzCore/QuartzCore.h>
-#import <JSBadgeView/JSBadgeView.h>
 
 #define CORNER_RADIUS 5.0f
 #define LABEL_MARGIN_DEFAULT 18.0f
@@ -26,6 +25,12 @@
 #define HIGHLIGHTED_BACKGROUND_COLOR [UIColor colorWithRed:35.0f/255.0f green:136.0f/255.0f blue:190.0f/255.0f alpha:1.0f]
 #define DEFAULT_AUTOMATIC_RESIZE NO
 #define DEFAULT_SHOW_TAG_MENU NO
+#define BADGE_COLOR [UIColor colorWithRed:35.0f/255.0f green:136.0f/255.0f blue:190.0f/255.0f alpha:1.0f]
+#define BADGE_TEXT_COLOR [UIColor whiteColor]
+#define BADGE_STROKE_COLOR [UIColor colorWithRed:245.0f/255.0f green:243.0f/255.0f blue:234.0f/255.0f alpha:1.0f]
+#define BADGE_SELECTED_COLOR [UIColor colorWithRed:9.0f/255.0f green:147.0f/255.0f blue:3.0f/255.0f alpha:1.0f]
+#define BADGE_SELECTED_STROKE_COLOR [UIColor colorWithRed:245.0f/255.0f green:243.0f/255.0f blue:234.0f/255.0f alpha:1.0f]
+#define BADGE_SELECTED_TEXT_COLOR [UIColor whiteColor]
 
 @interface DWTagList () <DWTagViewDelegate>
 
@@ -70,6 +75,12 @@
     self.textShadowOffset = TEXT_SHADOW_OFFSET;
     self.showTagMenu = DEFAULT_SHOW_TAG_MENU;
     self.highlightedFontColor = FONT_HIGHLIGHTED_COLOR;
+    self.badgeColor = BADGE_COLOR;
+    self.badgeStrokeColor = BADGE_STROKE_COLOR;
+    self.badgeTextColor = BADGE_TEXT_COLOR;
+    self.badgeSelectedColor = BADGE_SELECTED_COLOR;
+    self.badgeSelectedStrokeColor = BADGE_SELECTED_STROKE_COLOR;
+    self.badgeSelectedTextColor = BADGE_SELECTED_TEXT_COLOR;
 }
 
 - (void)setTags:(NSArray *)array {
@@ -180,9 +191,14 @@
         if(badgeTextArray != nil && badgeTextArray.count > tag) {
             NSString *priceText = [badgeTextArray objectAtIndex:tag];
             if(priceText != nil && priceText.length > 0) {
-                JSBadgeView *badgeView = [[JSBadgeView alloc] initWithParentView:tagView alignment:JSBadgeViewAlignmentTopRight];
-                badgeView.badgeText = priceText;
-                badgeView.badgeTextFont = [UIFont systemFontOfSize:10.0f];
+                tagView.badgeView = [[JSBadgeView alloc] initWithParentView:tagView alignment:JSBadgeViewAlignmentTopRight];
+                tagView.badgeView.badgeText = priceText;
+                tagView.badgeView.badgeTextFont = [UIFont systemFontOfSize:10.0f];
+                tagView.badgeView.badgeBackgroundColor = self.badgeColor;
+                tagView.badgeView.badgeTextColor = self.badgeTextColor;
+                tagView.badgeView.badgeStrokeWidth = 2.0f;
+                tagView.badgeView.badgeStrokeColor = self.badgeStrokeColor;
+                tagView.badgeView.badgePositionAdjustment = CGPointMake(-2.0f, 2.0f);
                 tagView.clipsToBounds = NO;
             }
         }
@@ -216,8 +232,8 @@
 
 - (void)touchDownInside:(id)sender
 {
-    UIButton *button = (UIButton*)sender;
-    [[button superview] setBackgroundColor:self.highlightedBackgroundColor];
+    //    UIButton *button = (UIButton*)sender;
+    //    [[button superview] setBackgroundColor:self.highlightedBackgroundColor];
     //    [((DWTagView *)[button superview]).label setTextColor:self.highlightedFontColor];
 }
 
@@ -231,9 +247,15 @@
     if(button.selected) {
         [[button superview] setBackgroundColor:self.highlightedBackgroundColor];
         [((DWTagView *)[button superview]).label setTextColor:self.highlightedFontColor];
+        tagView.badgeView.badgeBackgroundColor = self.badgeSelectedColor;
+        tagView.badgeView.badgeTextColor = self.badgeSelectedTextColor;
+        tagView.badgeView.badgeStrokeColor = self.badgeSelectedStrokeColor;
     } else {
         [[button superview] setBackgroundColor:[self getBackgroundColor]];
         [((DWTagView *)[button superview]).label setTextColor:self.textColor];
+        tagView.badgeView.badgeBackgroundColor = self.badgeColor;
+        tagView.badgeView.badgeTextColor = self.badgeTextColor;
+        tagView.badgeView.badgeStrokeColor = self.badgeStrokeColor;
     }
     
     
@@ -259,16 +281,16 @@
 
 - (void)touchDragExit:(id)sender
 {
-    UIButton *button = (UIButton*)sender;
-    [[button superview] setBackgroundColor:[self getBackgroundColor]];
+    //    UIButton *button = (UIButton*)sender;
+    //    [[button superview] setBackgroundColor:[self getBackgroundColor]];
     //    [((DWTagView *)[button superview]).label setTextColor:self.textColor];
     
 }
 
 - (void)touchDragInside:(id)sender
 {
-    UIButton *button = (UIButton*)sender;
-    [[button superview] setBackgroundColor:[self getBackgroundColor]];
+    //    UIButton *button = (UIButton*)sender;
+    //    [[button superview] setBackgroundColor:[self getBackgroundColor]];
     //    [((DWTagView *)[button superview]).label setTextColor:self.textColor];
     
 }
