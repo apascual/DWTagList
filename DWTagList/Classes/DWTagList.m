@@ -38,7 +38,7 @@
 
 @implementation DWTagList
 
-@synthesize view, textArray, automaticResize;
+@synthesize view, textArray, automaticResize, selectionArray;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -84,13 +84,17 @@
 }
 
 - (void)setTags:(NSArray *)array {
-    [self setTags:array withBadges:nil];
+    [self setTags:array withBadges:nil withSelection:nil];
 }
 
-- (void)setTags:(NSArray *)array withBadges:(NSArray *)badgeArray
-{
+- (void)setTags:(NSArray *)array withBadges:(NSArray *)badgeArray {
+    [self setTags:array withBadges:badgeArray withSelection:nil];
+}
+
+- (void)setTags:(NSArray *)array withBadges:(NSArray *)badgeArray withSelection:(NSArray *)selectedArray {
     textArray = [[NSArray alloc] initWithArray:array];
     badgeTextArray = [[NSArray alloc] initWithArray:badgeArray];
+    selectionArray = [[NSArray alloc] initWithArray:selectedArray];
     sizeFit = CGSizeZero;
     if (automaticResize) {
         [self display];
@@ -201,6 +205,23 @@
                 tagView.badgeView.badgePositionAdjustment = CGPointMake(-2.0f, 2.0f);
                 tagView.clipsToBounds = NO;
             }
+        }
+        
+        if([selectionArray containsObject:@(tag)]) {
+            tagView.button.selected = YES;
+        }
+        if(tagView.button.selected) {
+            [tagView setBackgroundColor:self.highlightedBackgroundColor];
+            [tagView.label setTextColor:self.highlightedFontColor];
+            tagView.badgeView.badgeBackgroundColor = self.badgeSelectedColor;
+            tagView.badgeView.badgeTextColor = self.badgeSelectedTextColor;
+            tagView.badgeView.badgeStrokeColor = self.badgeSelectedStrokeColor;
+        } else {
+            [tagView setBackgroundColor:[self getBackgroundColor]];
+            [tagView.label setTextColor:self.textColor];
+            tagView.badgeView.badgeBackgroundColor = self.badgeColor;
+            tagView.badgeView.badgeTextColor = self.badgeTextColor;
+            tagView.badgeView.badgeStrokeColor = self.badgeStrokeColor;
         }
         
         tag++;

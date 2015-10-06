@@ -23,6 +23,7 @@
 @property (nonatomic) BOOL showTagMenu;
 @property (nonatomic, strong) UIView *view;
 @property (nonatomic, strong) NSArray *textArray;
+@property (nonatomic, strong) NSArray *selectionArray;
 @property (nonatomic, weak) id<DWTagListDelegate> tagDelegate;
 @property (nonatomic, strong) UIColor *highlightedFontColor;
 @property (nonatomic, strong) UIColor *highlightedBackgroundColor;
@@ -50,6 +51,7 @@
 - (void)setTagHighlightColor:(UIColor *)color;
 - (void)setTags:(NSArray *)array;
 - (void)setTags:(NSArray *)array withBadges:(NSArray *)badgeArray;
+- (void)setTags:(NSArray *)array withBadges:(NSArray *)badgeArray withSelection:(NSArray *)selectedArray;
 - (void)display;
 - (CGSize)fittedSize;
 - (void)scrollToBottomAnimated:(BOOL)animated;
