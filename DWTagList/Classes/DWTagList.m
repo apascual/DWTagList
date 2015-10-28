@@ -61,6 +61,7 @@
 - (void)setup {
     [self addSubview:view];
     [self setClipsToBounds:YES];
+    self.maxSelection = 0;
     self.highlightedBackgroundColor = HIGHLIGHTED_BACKGROUND_COLOR;
     self.font = [UIFont fontWithName:FONT_FACE size:FONT_SIZE_DEFAULT];
     self.labelMargin = LABEL_MARGIN_DEFAULT;
@@ -207,9 +208,12 @@
             }
         }
         
-        if([selectionArray containsObject:@(tag)]) {
+        if(selectionArray != nil && selectionArray.count > 0 && [selectionArray containsObject:@(tag)]) {
             tagView.button.selected = YES;
+        } else {
+            tagView.button.selected = NO;
         }
+        
         if(tagView.button.selected) {
             [tagView setBackgroundColor:self.highlightedBackgroundColor];
             [tagView.label setTextColor:self.highlightedFontColor];
@@ -229,10 +233,10 @@
         [self addSubview:tagView];
         
         if (!_viewOnly) {
-            [tagView.button addTarget:self action:@selector(touchDownInside:) forControlEvents:UIControlEventTouchDown];
+            //            [tagView.button addTarget:self action:@selector(touchDownInside:) forControlEvents:UIControlEventTouchDown];
             [tagView.button addTarget:self action:@selector(touchUpInside:) forControlEvents:UIControlEventTouchUpInside];
-            [tagView.button addTarget:self action:@selector(touchDragExit:) forControlEvents:UIControlEventTouchDragExit];
-            [tagView.button addTarget:self action:@selector(touchDragInside:) forControlEvents:UIControlEventTouchDragInside];
+            //            [tagView.button addTarget:self action:@selector(touchDragExit:) forControlEvents:UIControlEventTouchDragExit];
+            //            [tagView.button addTarget:self action:@selector(touchDragInside:) forControlEvents:UIControlEventTouchDragInside];
         }
     }
     
@@ -258,13 +262,40 @@
     //    [((DWTagView *)[button superview]).label setTextColor:self.highlightedFontColor];
 }
 
+- (NSInteger)calculateSelectedTags {
+    NSInteger total = 0;
+    for (UIView *subview in [self subviews]) {
+        if ([subview isKindOfClass:[DWTagView class]]) {
+            DWTagView *tagView = (DWTagView*)subview;
+            if(tagView != nil && tagView.button.selected == YES) {
+                total++;
+            }
+        }
+    }
+    return total;
+}
+
 - (void)touchUpInside:(id)sender
 {
     UIButton *button = (UIButton*)sender;
     DWTagView *tagView = (DWTagView *)[button superview];
     [tagView setBackgroundColor:[self getBackgroundColor]];
     
-    button.selected = !button.selected;
+    NSInteger selectedTags = [self calculateSelectedTags];
+    
+    
+    if(!button.selected) {
+        
+        if(self.maxSelection == 0 || selectedTags < self.maxSelection) {
+            button.selected = YES;
+        } else {
+            button.selected = NO;
+            [self.tagDelegate maxSelectionReached];
+        }
+    } else {
+        button.selected = NO;
+    }
+    
     if(button.selected) {
         [[button superview] setBackgroundColor:self.highlightedBackgroundColor];
         [((DWTagView *)[button superview]).label setTextColor:self.highlightedFontColor];

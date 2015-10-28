@@ -19,6 +19,7 @@
     UIColor     *lblBackgroundColor;
 }
 
+@property (nonatomic) NSInteger maxSelection;
 @property (nonatomic) BOOL viewOnly;
 @property (nonatomic) BOOL showTagMenu;
 @property (nonatomic, strong) UIView *view;
@@ -89,6 +90,7 @@
 - (void)selectedTag:(NSString *)tagName tagIndex:(NSInteger)tagIndex;
 - (void)selectedTag:(NSString *)tagName;
 - (void)tagListTagsChanged:(DWTagList *)tagList;
+- (void)maxSelectionReached;
 
 @end
 
