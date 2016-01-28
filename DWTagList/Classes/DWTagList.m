@@ -196,6 +196,9 @@
         if(badgeTextArray != nil && badgeTextArray.count > tag) {
             NSString *priceText = [badgeTextArray objectAtIndex:tag];
             if(priceText != nil && priceText.length > 0) {
+                if(tagView.badgeView != nil) {
+                    [tagView.badgeView removeFromSuperview];
+                }
                 tagView.badgeView = [[JSBadgeView alloc] initWithParentView:tagView alignment:JSBadgeViewAlignmentTopRight];
                 tagView.badgeView.badgeText = priceText;
                 tagView.badgeView.badgeTextFont = [UIFont systemFontOfSize:10.0f];
