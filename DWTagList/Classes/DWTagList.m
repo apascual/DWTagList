@@ -208,6 +208,10 @@
                 tagView.badgeView.badgeStrokeColor = self.badgeStrokeColor;
                 tagView.badgeView.badgePositionAdjustment = CGPointMake(-2.0f, 2.0f);
                 tagView.clipsToBounds = NO;
+            } else {
+                if(tagView.badgeView != nil) {
+                    [tagView.badgeView removeFromSuperview];
+                }
             }
         }
         
