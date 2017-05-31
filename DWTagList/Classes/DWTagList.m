@@ -317,6 +317,9 @@
         tagView.badgeView.badgeStrokeColor = self.badgeStrokeColor;
     }
     
+    if ([self.tagDelegate respondsToSelector:@selector(selectedTag:tagIndex:group:selected:)]) {
+        [self.tagDelegate selectedTag:tagView.label.text tagIndex:tagView.tag group:self.identifier selected:button.selected];
+    }
     
     if ([self.tagDelegate respondsToSelector:@selector(selectedTag:tagIndex:selected:)]) {
         [self.tagDelegate selectedTag:tagView.label.text tagIndex:tagView.tag selected:button.selected];
