@@ -92,7 +92,7 @@
 - (void)selectedTag:(NSString *)tagName tagIndex:(NSInteger)tagIndex;
 - (void)selectedTag:(NSString *)tagName;
 - (void)tagListTagsChanged:(DWTagList *)tagList;
-- (void)maxSelectionReached;
+- (void)maxSelectionReached:(NSNumber *)maxSelection;
 
 @end
 

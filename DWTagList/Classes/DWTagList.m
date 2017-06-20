@@ -297,7 +297,7 @@
             button.selected = YES;
         } else {
             button.selected = NO;
-            [self.tagDelegate maxSelectionReached];
+            [self.tagDelegate maxSelectionReached:@(self.maxSelection)];
         }
     } else {
         button.selected = NO;
