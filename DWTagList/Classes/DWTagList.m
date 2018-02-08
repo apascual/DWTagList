@@ -282,6 +282,34 @@
     return total;
 }
 
+- (void)addSelectedTag:(NSNumber *)tag {
+    if(selectionArray == nil) {
+        selectionArray = [[NSArray alloc] init];
+    }
+    
+    NSMutableArray *ma = [selectionArray mutableCopy];
+    
+    if(![ma containsObject:tag]) {
+        [ma addObject:tag];
+    }
+    
+    selectionArray = [ma copy];
+}
+
+- (void)removeSelectedTag:(NSNumber *)tag {
+    if(selectionArray == nil) {
+        selectionArray = [[NSArray alloc] init];
+    }
+    
+    NSMutableArray *ma = [selectionArray mutableCopy];
+    
+    if(![ma containsObject:tag]) {
+        [ma removeObject:tag];
+    }
+    
+    selectionArray = [ma copy];
+}
+
 - (void)touchUpInside:(id)sender
 {
     UIButton *button = (UIButton*)sender;
@@ -309,12 +337,17 @@
         tagView.badgeView.badgeBackgroundColor = self.badgeSelectedColor;
         tagView.badgeView.badgeTextColor = self.badgeSelectedTextColor;
         tagView.badgeView.badgeStrokeColor = self.badgeSelectedStrokeColor;
+        
+        // Add to selected array
+        [self addSelectedTag:@(tagView.tag)];
     } else {
         [[button superview] setBackgroundColor:[self getBackgroundColor]];
         [((DWTagView *)[button superview]).label setTextColor:self.textColor];
         tagView.badgeView.badgeBackgroundColor = self.badgeColor;
         tagView.badgeView.badgeTextColor = self.badgeTextColor;
         tagView.badgeView.badgeStrokeColor = self.badgeStrokeColor;
+        
+        [self removeSelectedTag:@(tagView.tag)];
     }
     
     if ([self.tagDelegate respondsToSelector:@selector(selectedTag:tagIndex:group:selected:)]) {
@@ -537,3 +570,4 @@
 }
 
 @end
+
